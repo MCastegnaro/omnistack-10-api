@@ -3,8 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const port = 3333;
 const routes = require('./routes');
+const http = require('http');
+const { setupWebsocket } = require('./websocket');
 
 const app = express();
+const server = http.Server(app);
+
+setupWebsocket(server);
 
 // Conexao com o banco de dados
 mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-7bhqu.mongodb.net/week10?retryWrites=true&w=majority', {
@@ -22,4 +27,4 @@ app.use(express.json());
 app.use(routes);
 
 
-app.listen(port, () => console.log(`Listening on port -> ` + port));  
+server.listen(port, () => console.log(`Listening on port -> ` + port));  
